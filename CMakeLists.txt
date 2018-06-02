@@ -25,6 +25,7 @@ macro( yax_lib  name topNamespace)
          src/${topNamespace}/*.cxx src/${topNamespace}/*.hxx)
 #     message ( " ${name} in directory ${CMAKE_CURRENT_SOURCE_DIR} has top namespace ${topNamespace}\n\tand ${sources} as sources  " )
     target_sources(${name} PRIVATE ${sources}) 
+    set_property(TARGET ${name} PROPERTY CXX_STANDARD 17)
     foreach(source ${sources})
         string(FIND ${source} "/" pathEnd REVERSE)
         math(EXPR last ${pathEnd}-4)
@@ -37,14 +38,8 @@ macro( yax_lib  name topNamespace)
         set_source_files_properties(${source}  
                                         PROPERTIES COMPILE_DEFINITIONS NAMESPACE=${namespace})
     endforeach() 
-            
-#     endforeach(file)  
+          
 endmacro ( yax_lib ) 
-
-# Prepare "Catch" library for other executables
-# set(CATCH_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/Catch2)
-# add_library(Catch INTERFACE)
-# target_include_directories(Catch INTERFACE ${CATCH_INCLUDE_DIR})
 
 add_subdirectory(libs apps)
 
