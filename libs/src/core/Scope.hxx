@@ -18,9 +18,10 @@
 
 #pragma once
 
-#define template <typename ....> Scope
+#include <catch.hpp>
 
-#include <catch2/catch.hpp>
+
+namespace NAMESPACE {
 
 enum class ScopeCardinal {
     literal_,    // a literal value, has not even an adress
@@ -34,9 +35,9 @@ enum class ScopeCardinal {
 
 using Byte = unsigned char;
 
-template<Scopes _scope>
+template<ScopeCardinal _scope>
 enum class Scope {
-    Scopes scope = _scope;
+    ScopeCardinal scope = _scope;
 
     constexpr bool isLiteral = (scope == literal_);
     constexpr bool isConst = (scope <= const_);
@@ -49,3 +50,6 @@ enum class Scope {
 
 };
 
+using Literal = Scope<literal_>; 
+
+}

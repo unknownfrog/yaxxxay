@@ -1,9 +1,17 @@
 cmake_minimum_required(VERSION 3.11)
+
+
 project(yaxxxxay)
 
+add_library(Catch INTERFACE)
+target_include_directories(Catch INTERFACE external/Catch2/single_include/)
 
-macro( yax_lib  name namespace )
-    set (namespace name)
+macro ( trace name )
+    message ( "trace \${${name}} = ${${name}}")
+endmacro() 
+
+macro( yax_lib  name topNamespace)
+#     set (namespace name)
 #     if (${ARGC} GREATER 1)
 #       set(subdir ${ARG2}
 #     else()
@@ -11,16 +19,32 @@ macro( yax_lib  name namespace )
     add_library(${name} 
                 SHARED)
     file(GLOB_RECURSE 
-         sources
+         sources 
          LIST_DIRECTORIES false  
           RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
-         ${namespace}/*.cxx ${namespace}/*.hxx)
-#   foreach(file ${sources})
-#      string(FIND /     
-     message ( " ${name} in directory ${CMAKE_CURRENT_SOURCE_DIR} has top  namespace ${namespace}\n\tand ${sources} as sources  " )
-      target_sources(${name} PRIVATE ${sources})
+         src/${topNamespace}/*.cxx src/${topNamespace}/*.hxx)
+#     message ( " ${name} in directory ${CMAKE_CURRENT_SOURCE_DIR} has top namespace ${topNamespace}\n\tand ${sources} as sources  " )
+    target_sources(${name} PRIVATE ${sources}) 
+    foreach(source ${sources})
+        string(FIND ${source} "/" pathEnd REVERSE)
+        math(EXPR last ${pathEnd}-4)
+        string(SUBSTRING ${source} 4 ${last} namespacePath)
+#         trace ( namespacePath ) 
+#         string(SUBSTRING ${headTrimmed} 4 -1 headTrimmed)
+        string(REPLACE  "/" "::" namespace ${namespacePath}) 
+#         trace ( namespace )
+#         message("set namespace for source file ${source} to ${namespace} ")
+        set_source_files_properties(${source}  
+                                        PROPERTIES COMPILE_DEFINITIONS NAMESPACE=${namespace})
+    endforeach() 
+            
 #     endforeach(file)  
-endmacro ( yax_lib )
+endmacro ( yax_lib ) 
+
+# Prepare "Catch" library for other executables
+# set(CATCH_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/Catch2)
+# add_library(Catch INTERFACE)
+# target_include_directories(Catch INTERFACE ${CATCH_INCLUDE_DIR})
 
 add_subdirectory(libs apps)
 
