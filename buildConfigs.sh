@@ -2,7 +2,7 @@
 
 for build in build/*;do
    pushd $build
-   ninja
+   cmake --build
    popd
 done 
 

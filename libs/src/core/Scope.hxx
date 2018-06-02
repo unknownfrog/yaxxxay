@@ -24,32 +24,23 @@
 namespace NAMESPACE {
 
 enum class ScopeCardinal {
-    literal_,    // a literal value, has not even an adress
-    const_,      // a value with an adress, but it is not changeable after being constructed.
-    view_,       // a read only value. May be changed by someone else
-    owned_,      // a local or heap allocated value. Only owner has access
-    shared_,     // a value which might be shared inside a single thread/task
-    sync_,       // a value used to communicate between threads/tasks/processes. TODO in progress
-    distributed_ // a distributed value, might be (partly and temporarly) out of sync TODO in progress
+    literal,      // a literal value, has not even an adress
+    constLocal,   // a value with an adress, but it is not changeable after being constructed.
+    mutableLocal, // a read only value. May be changed by someone else
+    owned,        // a local or heap allocated value. Only owner has access
+    shared,       // a value which might be shared inside a single thread/task
+    communicate,  // a value used to communicate between threads/tasks/processes. TODO in progress
+    distributed   // a distributed value, might be (partly and temporarly) out of sync TODO in progress
 };
 
 using Byte = unsigned char;
 
 template<ScopeCardinal _scope>
-enum class Scope {
-    ScopeCardinal scope = _scope;
-
-    constexpr bool isLiteral = (scope == literal_);
-    constexpr bool isConst = (scope <= const_);
-    constexpr bool isMutable = !isConst(scope >= owned_);
-    constexpr bool isOnHeap = (scope == view_);
-    constexpr bool isOwn = (scope == owned_);
-    constexpr bool isConst = (scope == const_);
-    constexpr bool isConst = (scope == const_);
-    constexpr bool isConst = (scope == const_);
+class Scope {
+    static constexpr ScopeCardinal scope = _scope;
 
 };
 
-using Literal = Scope<literal_>; 
+using Literal = Scope<ScopeCardinal::literal>; 
 
 }
