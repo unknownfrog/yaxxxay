@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.11)
 project(yaxxxxay)
 
 add_library(Catch INTERFACE)
-target_include_directories(Catch INTERFACE external/Catch2/single_include/)
+target_include_directories(Catch INTERFACE external/catch/single_include/)
 
 macro ( trace name )
     message ( "trace \${${name}} = ${${name}}")
@@ -45,7 +45,7 @@ add_subdirectory(libs apps)
 
 # as a test just compile something 
 add_executable(yaxxxay main.cpp)
-target_link_libraries(yaxxxay yax_core yax_std)
+target_link_libraries(yaxxxay yax_core yax_std Catch )
 
 #target_compile_definitions(yaxxxxay PRIVATE ${namespace})
 

@@ -19,6 +19,7 @@
 #pragma once
 
 #include <catch.hpp>
+#include <core/Scope.hxx>
 
 
 namespace NAMESPACE {
