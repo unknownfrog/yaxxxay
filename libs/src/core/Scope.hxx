@@ -19,8 +19,8 @@
 #pragma once
 
 #include <catch.hpp>
-#include <core/Scope.hxx>
 
+#define NAMESPACE core
 
 namespace NAMESPACE {
 
