@@ -30,3 +30,9 @@
 
 # Build folders
 build/
+/.vs/VSWorkspaceState.json
+/.vs/slnx.sqlite
+/.vs/yaxxxay/v15/Browse.VC.opendb
+/.vs/yaxxxay/v15/Browse.VC.db
+/.vs/yaxxxay/v15/.suo
+/.vs/ProjectSettings.json
