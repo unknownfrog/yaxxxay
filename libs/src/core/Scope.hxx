@@ -20,10 +20,9 @@
 
 #include <catch.hpp>
 
+namespace @NAMESPACE@ {
 
-namespace NAMESPACE {
-
-enum class ScopeCardinal {
+enum class Scopes {
     literal,      // a literal value, has not even an adress
     constLocal,   // a value with an adress, but it is not changeable after being constructed.
     mutableLocal, // a read only value. May be changed by someone else
@@ -35,12 +34,17 @@ enum class ScopeCardinal {
 
 using Byte = unsigned char;
 
-template<ScopeCardinal _scope>
+template<Scopes _scope>
 class Scope {
-    static constexpr ScopeCardinal scope = _scope;
+    static constexpr Scopes scope = _scope;
 
 };
 
-using Literal = Scope<ScopeCardinal::literal>; 
-
+using Literal = Scope<Scopes::literal>; 
+using Const = Scope<Scopes::constLocal>; 
+using Mutale = Scope<Scopes::mutableLocal>; 
+using Owned = Scope<Scopes::owned>; 
+using Shared = Scope<Scopes::shared>; 
+using Channel = Scope<Scopes::communicate>; 
+using Proxy = Scope<Scopes::distributed>; 
 }
