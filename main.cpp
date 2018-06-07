@@ -2,7 +2,7 @@
 #include <core/Scope.hxx>
 
 int main(int, char**) {
-    core::ScopeCardinal scope = ScopeCardinal::literal_;
+    core::Scopes scope = core::Scopes::literal;
     
     std::cout << "Hello, world!" << std::endl;
 

@@ -18,5 +18,5 @@
 
 #include "Scope.hxx"
 
-namespace NAMESPACE {
+namespace @NAMESPACE@ {
 }
