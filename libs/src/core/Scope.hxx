@@ -21,30 +21,49 @@
 #include <catch.hpp>
 
 namespace @NAMESPACE@ {
+    
+    enum class LocalScope {
+        on_stack,
+        on_heap
+    };
+        
+    enum class Scopes {
+        literal,      // a literal value, has not even an adress
+        local,        // a local value. only valid in local scope
+        owned,        // a heap allocated value. Only owner has access.
+        shared,       // a value which might be shared inside a single thread/task
+        communicate,  // a value used to communicate between threads/tasks/processes. TODO in progress
+    };
 
-enum class Scopes {
-    literal,      // a literal value, has not even an adress
-    constLocal,   // a value with an adress, but it is not changeable after being constructed.
-    mutableLocal, // a read only value. May be changed by someone else
-    owned,        // a local or heap allocated value. Only owner has access
-    shared,       // a value which might be shared inside a single thread/task
-    communicate,  // a value used to communicate between threads/tasks/processes. TODO in progress
-    distributed   // a distributed value, might be (partly and temporarly) out of sync TODO in progress
-};
 
-using Byte = unsigned char;
+    enum class Accessibilit {
+        constant,
+        view,
+        mutable_
+    };
 
-template<Scopes _scope>
-class Scope {
-    static constexpr Scopes scope = _scope;
+    
+    enum class ValueOrReference {
+        value,
+        __cpp_rvalue_references
+        
+    };
+    
+    // TODO
+    using Byte = unsigned char;
 
-};
+    template<Scopes _scope>
+    class Scope {
+        static constexpr Scopes scope = _scope;
 
-using Literal = Scope<Scopes::literal>; 
-using Const = Scope<Scopes::constLocal>; 
-using Mutale = Scope<Scopes::mutableLocal>; 
-using Owned = Scope<Scopes::owned>; 
-using Shared = Scope<Scopes::shared>; 
-using Channel = Scope<Scopes::communicate>; 
-using Proxy = Scope<Scopes::distributed>; 
+    };
+
+    using Literal = Scope<Scopes::literal>; 
+    using Const = Scope<Scopes::constLocal>; 
+    using Mutale = Scope<Scopes::mutableLocal>; 
+    using Owned = Scope<Scopes::Owned>; 
+    using Shared = Scope<Scopes::shared>; 
+    using Communicator = Scope<Scopes::communicate>; 
+
+    
 }
