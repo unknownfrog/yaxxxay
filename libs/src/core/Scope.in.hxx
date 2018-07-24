@@ -17,8 +17,8 @@
  */
 
 #pragma once
-
-#include <catch.hpp>
+#line 21 "@ORIGFILENAME@"
+#include <catch2/catch.hpp>
 
 namespace @NAMESPACE@ {
     
@@ -29,24 +29,28 @@ namespace @NAMESPACE@ {
         
     enum class Scopes {
         literal,      // a literal value, has not even an adress
+        const_,       // a immutable value, value is set at construction and immutable from then
         local,        // a local value. only valid in local scope
         owned,        // a heap allocated value. Only owner has access.
         shared,       // a value which might be shared inside a single thread/task
-        communicate,  // a value used to communicate between threads/tasks/processes. TODO in progress
+        communicate,  // a value used to communicate between threads/tasks/processes. Needs synchronisatin. TODO in progress
     };
 
 
-    enum class Accessibilit {
+    enum class Accessbility {
         constant,
         view,
-        mutable_
+        change
     };
 
-    
     enum class ValueOrReference {
         value,
-        __cpp_rvalue_references
-        
+        refercence
+    };
+
+    enum class StorageProvider {
+        stack,
+        heap
     };
     
     // TODO
@@ -59,9 +63,9 @@ namespace @NAMESPACE@ {
     };
 
     using Literal = Scope<Scopes::literal>; 
-    using Const = Scope<Scopes::constLocal>; 
-    using Mutale = Scope<Scopes::mutableLocal>; 
-    using Owned = Scope<Scopes::Owned>; 
+    using Const = Scope<Scopes::const_>;
+    using Mutale = Scope<Scopes::local>;
+    using Owned = Scope<Scopes::owned>;
     using Shared = Scope<Scopes::shared>; 
     using Communicator = Scope<Scopes::communicate>; 
 
